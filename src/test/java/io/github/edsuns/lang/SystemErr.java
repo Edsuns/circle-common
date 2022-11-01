@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
  */
 public final class SystemErr extends RequestErr {
 
+    private static final long serialVersionUID = 921568799352229618L;
+
     private SystemErr(String message) {
         super(message, MODULE_ID, HttpStatus.BAD_REQUEST);
     }

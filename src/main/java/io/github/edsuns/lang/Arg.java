@@ -1,8 +1,9 @@
 package io.github.edsuns.lang;
 
-import javax.annotation.Nonnull;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.function.Function;
+import javax.annotation.Nonnull;
 
 import static java.util.Objects.requireNonNull;
 
@@ -10,10 +11,12 @@ import static java.util.Objects.requireNonNull;
  * @author edsuns@qq.com
  * @date 2022/10/28 14:37
  */
-public class Arg<T, E> {
+public class Arg<T, E> implements Serializable {
+
+    private static final long serialVersionUID = -5807924615070041358L;
 
     private static final Function<Object, RuntimeException> DEFAULT_ERROR_HANDLER =
-            err -> new ArgException(err.toString());
+        err -> new ArgException(err.toString());
 
     private final T value;
 

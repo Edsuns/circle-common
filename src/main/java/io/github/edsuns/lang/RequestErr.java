@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
  */
 public abstract class RequestErr extends ErrorTrace {
 
+    private static final long serialVersionUID = -2389865799389747381L;
     private final HttpStatus status;
 
     protected RequestErr(String message, long moduleId, HttpStatus status) {

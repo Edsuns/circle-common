@@ -1,17 +1,20 @@
 package io.github.edsuns.lang;
 
+import java.io.Serializable;
+import java.util.Objects;
+import javax.annotation.Nonnull;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import javax.annotation.Nonnull;
-import java.util.Objects;
 
 /**
  * Created by Edsuns@qq.com on 2022/10/29.
  */
 @JsonSerialize(using = ErrorTraceStdSerializer.class)
 @JsonDeserialize(using = ErrorTraceStdDeserializer.class)
-public abstract class ErrorTrace {
+public abstract class ErrorTrace implements Serializable {
+
+    private static final long serialVersionUID = 1639925119803949339L;
 
     private final String name;
     private final String message;
