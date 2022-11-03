@@ -17,6 +17,10 @@ public class SerializedLambdasTest {
         assertEquals(Object.class.getName(), lambda.getImplClass().replace('/', '.'));
         assertEquals("toString", lambda.getImplMethodName());
 
+        SerializedLambda bySerialize = io.github.edsuns.util.SerializedLambda.getSerializedLambda(
+                (SerializableFunction<Object, String>) Object::toString);
+        assertEquals("toString", bySerialize.getImplMethodName());
+
         SerializableConsumer<?> println = System.out::println;
         assertEquals("println", SerializedLambdas.getLambda(println).getImplMethodName());
     }
