@@ -1,12 +1,21 @@
 package io.github.edsuns.lang;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Optional;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Created by Edsuns@qq.com on 2022/10/29.
@@ -87,5 +96,27 @@ public class ArgTest {
     void cast() {
         Obj<Integer> errObj = SystemErr.TEST.cast();
         assertTrue(errObj.isError());
+    }
+
+    @Test
+    void serializable() throws IOException, ClassNotFoundException {
+        Obj<Integer> err = SystemErr.TEST.cast();
+        assertEquals(err, readObj(writeObj(err)));
+
+        Obj<Integer> obj = Obj.of(1);
+        assertEquals(obj, readObj(writeObj(obj)));
+    }
+
+    private <T> ByteArrayOutputStream writeObj(Obj<T> obj) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ObjectOutputStream objOut = new ObjectOutputStream(out);
+        objOut.writeObject(obj);
+        return out;
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> Obj<T> readObj(ByteArrayOutputStream out) throws IOException, ClassNotFoundException {
+        ObjectInputStream objIn = new ObjectInputStream(new ByteArrayInputStream(out.toByteArray()));
+        return (Obj<T>) objIn.readObject();
     }
 }
