@@ -13,15 +13,11 @@ public class SerializedLambdasTest {
 
     @Test
     void test() {
-        class Some {
-            private String name;
+        SerializedLambda lambda = SerializedLambdas.getLambda(Object::toString);
+        assertEquals(Object.class.getName(), lambda.getImplClass().replace('/', '.'));
+        assertEquals("toString", lambda.getImplMethodName());
 
-            String getName() {
-                return name;
-            }
-        }
-        SerializedLambda lambda = SerializedLambdas.getSerializedLambda(Some::getName);
-        assertEquals(Some.class.getName(), lambda.getImplClass().replace('/', '.'));
-        assertEquals("getName", lambda.getImplMethodName());
+        SerializableConsumer<?> println = System.out::println;
+        assertEquals("println", SerializedLambdas.getLambda(println).getImplMethodName());
     }
 }
